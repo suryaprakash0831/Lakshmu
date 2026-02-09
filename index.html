@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mahalakshmi 💖</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff5f9e, #ffc371);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 20px;
+      animation: floatUp linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-110vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 30px 20px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 380px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+    }
+
+    .buttons {
+      position: relative;
+      height: 150px;
+    }
+
+    button {
+      border: none;
+      padding: 15px 25px;
+      font-size: 1.1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    #yesBtn {
+      background: #00e676;
+      color: #004d2c;
+      font-weight: bold;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #yesBtn:active {
+      transform: scale(0.95);
+    }
+
+    #noBtn {
+      background: #ff1744;
+      color: #fff;
+      position: absolute;
+      left: 50%;
+      top: 70px;
+      transform: translateX(-50%);
+    }
+
+    .love {
+      font-size: 1.3rem;
+      margin-top: 20px;
+      display: none;
+    }
+
+    /* Heart explosion */
+    .burst {
+      position: absolute;
+      font-size: 18px;
+      animation: burst 0.8s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes burst {
+      from {
+        transform: translate(0,0) scale(1);
+        opacity: 1;
+      }
+      to {
+        transform: translate(var(--x), var(--y)) scale(1.5);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <h1>Hey Mahalakshmi 💕</h1>
+    <p>
+      Every day feels special with you…<br>
+      So I have just one question 💖
+    </p>
+
+    <h1>Will you be my Valentine? 🌹</h1>
+
+    <div class="buttons">
+      <button id="yesBtn">YES 💘</button>
+      <button id="noBtn">NO 🙈</button>
+    </div>
+
+    <div class="love" id="loveMsg">
+      💞 Yaaay! I knew it 😍<br>
+      Happy Valentine’s Day, Mahalakshmi 💖
+    </div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const loveMsg = document.getElementById("loveMsg");
+
+    // Move NO button
+    function moveButton() {
+      const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+      const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+    }
+
+    noBtn.addEventListener("mouseenter", moveButton);
+    noBtn.addEventListener("touchstart", moveButton);
+
+    // Floating hearts generator
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 4 + Math.random() * 3 + "s";
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 7000);
+    }
+
+    setInterval(createHeart, 400);
+
+    // YES explosion
+    yesBtn.addEventListener("click", (e) => {
+      const rect = yesBtn.getBoundingClientRect();
+
+      for (let i = 0; i < 20; i++) {
+        const burst = document.createElement("div");
+        burst.className = "burst";
+        burst.innerHTML = "💘";
+        burst.style.left = rect.left + rect.width / 2 + "px";
+        burst.style.top = rect.top + rect.height / 2 + "px";
+        burst.style.setProperty("--x", (Math.random() * 200 - 100) + "px");
+        burst.style.setProperty("--y", (Math.random() * -200) + "px");
+        document.body.appendChild(burst);
+
+        setTimeout(() => burst.remove(), 800);
+      }
+
+      loveMsg.style.display = "block";
+      yesBtn.style.display = "none";
+      noBtn.style.display = "none";
+    });
+  </script>
+
+</body>
+</html>
