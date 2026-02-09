@@ -45,6 +45,7 @@
       }
     }
 
+    /* Card fade-in */
     .card {
       background: rgba(255, 255, 255, 0.12);
       padding: 34px 22px;
@@ -55,6 +56,16 @@
       box-shadow: 0 22px 45px rgba(0,0,0,0.35);
       position: relative;
       z-index: 2;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 1.6s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     h1 {
@@ -79,6 +90,7 @@
     p {
       font-size: 1.05rem;
       margin-bottom: 22px;
+      min-height: 60px;
     }
 
     .buttons {
@@ -103,10 +115,6 @@
       font-weight: 700;
     }
 
-    #yesBtn:active {
-      transform: scale(0.95);
-    }
-
     #noBtn {
       background: linear-gradient(135deg, #ff1744, #ff6f91);
       color: #fff;
@@ -122,31 +130,32 @@
       display: none;
     }
 
-    /* YES burst */
-    .burst {
-      position: absolute;
-      font-size: 18px;
-      animation: burst 0.8s ease-out forwards;
+    /* Final screen */
+    .final {
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(135deg, #1a0611, #5c1630, #b9375e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      opacity: 0;
       pointer-events: none;
-      z-index: 3;
+      transition: opacity 1.5s ease;
+      z-index: 5;
     }
 
-    @keyframes burst {
-      from {
-        transform: translate(0,0) scale(1);
-        opacity: 1;
-      }
-      to {
-        transform: translate(var(--x), var(--y)) scale(1.5);
-        opacity: 0;
-      }
+    .final.show {
+      opacity: 1;
+      pointer-events: all;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Soft instrumental music -->
+  <!-- Background music -->
   <audio id="bgMusic" loop>
     <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_9c66d6c6a4.mp3" type="audio/mpeg">
   </audio>
@@ -154,10 +163,7 @@
   <div class="card">
     <h1>Hey <span class="glow">Mahalakshmi</span> 💕</h1>
 
-    <p>
-      Every day feels special with you…<br>
-      So I have just one question 💖
-    </p>
+    <p id="typedText"></p>
 
     <h1>Will you be my Valentine? 🌹</h1>
 
@@ -172,26 +178,40 @@
     </div>
   </div>
 
+  <div class="final" id="finalScreen">
+    🌹 Forever starts here 🌹
+  </div>
+
   <script>
+    const text =
+      "Every day feels special with you…\nSo I have just one question 💖";
+    const typedText = document.getElementById("typedText");
+    let index = 0;
+
+    function typeEffect() {
+      if (index < text.length) {
+        typedText.innerHTML += text[index] === "\n" ? "<br>" : text[index];
+        index++;
+        setTimeout(typeEffect, 40);
+      }
+    }
+
+    setTimeout(typeEffect, 800);
+
     const noBtn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
     const loveMsg = document.getElementById("loveMsg");
     const area = document.getElementById("buttonArea");
     const music = document.getElementById("bgMusic");
+    const finalScreen = document.getElementById("finalScreen");
 
-    // Play music on first interaction (mobile safe)
     document.body.addEventListener("click", () => {
       music.play().catch(() => {});
     }, { once: true });
 
-    // Keep NO button inside card
     function moveNoButton() {
-      const areaRect = area.getBoundingClientRect();
-      const btnRect = noBtn.getBoundingClientRect();
-
-      const maxX = areaRect.width - btnRect.width;
-      const maxY = areaRect.height - btnRect.height;
-
+      const maxX = area.clientWidth - noBtn.offsetWidth;
+      const maxY = area.clientHeight - noBtn.offsetHeight;
       noBtn.style.left = Math.random() * maxX + "px";
       noBtn.style.top = Math.random() * maxY + "px";
     }
@@ -199,7 +219,6 @@
     noBtn.addEventListener("mouseenter", moveNoButton);
     noBtn.addEventListener("touchstart", moveNoButton);
 
-    // Rose petals
     function createPetal() {
       const petal = document.createElement("div");
       petal.className = "petal";
@@ -207,31 +226,19 @@
       petal.style.left = Math.random() * 100 + "vw";
       petal.style.animationDuration = 6 + Math.random() * 4 + "s";
       document.body.appendChild(petal);
-
       setTimeout(() => petal.remove(), 10000);
     }
 
     setInterval(createPetal, 600);
 
-    // YES explosion
     yesBtn.addEventListener("click", () => {
-      const rect = yesBtn.getBoundingClientRect();
-
-      for (let i = 0; i < 22; i++) {
-        const burst = document.createElement("div");
-        burst.className = "burst";
-        burst.innerHTML = "🌹";
-        burst.style.left = rect.left + rect.width / 2 + "px";
-        burst.style.top = rect.top + rect.height / 2 + "px";
-        burst.style.setProperty("--x", `${Math.random() * 200 - 100}px`);
-        burst.style.setProperty("--y", `${Math.random() * -220}px`);
-        document.body.appendChild(burst);
-        setTimeout(() => burst.remove(), 800);
-      }
-
       yesBtn.style.display = "none";
       noBtn.style.display = "none";
       loveMsg.style.display = "block";
+
+      setTimeout(() => {
+        finalScreen.classList.add("show");
+      }, 2000);
     });
   </script>
 
