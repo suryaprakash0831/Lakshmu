@@ -15,7 +15,7 @@
       margin: 0;
       height: 100vh;
       background:
-        radial-gradient(circle at top, rgba(255,255,255,0.15), transparent 40%),
+        radial-gradient(circle at top, rgba(255,255,255,0.15), transparent 45%),
         linear-gradient(135deg, #2b0f1e, #7a1f3d, #c9485b);
       display: flex;
       justify-content: center;
@@ -24,35 +24,35 @@
       overflow: hidden;
     }
 
-    /* Floating hearts */
-    .heart {
+    /* Rose petals */
+    .petal {
       position: absolute;
-      bottom: -20px;
-      font-size: 18px;
+      bottom: -30px;
+      font-size: 20px;
       animation: floatUp linear infinite;
-      opacity: 0.7;
+      opacity: 0.8;
       z-index: 1;
     }
 
     @keyframes floatUp {
       from {
-        transform: translateY(0) scale(1);
+        transform: translateY(0) rotate(0deg);
         opacity: 1;
       }
       to {
-        transform: translateY(-110vh) scale(1.4);
+        transform: translateY(-110vh) rotate(360deg);
         opacity: 0;
       }
     }
 
     .card {
       background: rgba(255, 255, 255, 0.12);
-      padding: 32px 22px;
-      border-radius: 22px;
+      padding: 34px 22px;
+      border-radius: 24px;
       width: 90%;
       max-width: 380px;
       backdrop-filter: blur(14px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+      box-shadow: 0 22px 45px rgba(0,0,0,0.35);
       position: relative;
       z-index: 2;
     }
@@ -60,6 +60,20 @@
     h1 {
       font-size: 1.7rem;
       margin-bottom: 10px;
+    }
+
+    .glow {
+      color: #ffd6e7;
+      animation: glowPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% {
+        text-shadow: 0 0 8px rgba(255,214,231,0.4);
+      }
+      50% {
+        text-shadow: 0 0 16px rgba(255,214,231,0.8);
+      }
     }
 
     p {
@@ -132,8 +146,14 @@
 
 <body>
 
-  <div class="card" id="card">
-    <h1>Hey Mahalakshmi 💕</h1>
+  <!-- Soft instrumental music -->
+  <audio id="bgMusic" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_9c66d6c6a4.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="card">
+    <h1>Hey <span class="glow">Mahalakshmi</span> 💕</h1>
+
     <p>
       Every day feels special with you…<br>
       So I have just one question 💖
@@ -157,6 +177,12 @@
     const yesBtn = document.getElementById("yesBtn");
     const loveMsg = document.getElementById("loveMsg");
     const area = document.getElementById("buttonArea");
+    const music = document.getElementById("bgMusic");
+
+    // Play music on first interaction (mobile safe)
+    document.body.addEventListener("click", () => {
+      music.play().catch(() => {});
+    }, { once: true });
 
     // Keep NO button inside card
     function moveNoButton() {
@@ -166,29 +192,26 @@
       const maxX = areaRect.width - btnRect.width;
       const maxY = areaRect.height - btnRect.height;
 
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
-
-      noBtn.style.left = `${x}px`;
-      noBtn.style.top = `${y}px`;
+      noBtn.style.left = Math.random() * maxX + "px";
+      noBtn.style.top = Math.random() * maxY + "px";
     }
 
     noBtn.addEventListener("mouseenter", moveNoButton);
     noBtn.addEventListener("touchstart", moveNoButton);
 
-    // Floating hearts
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.innerHTML = "💖";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDuration = 5 + Math.random() * 4 + "s";
-      document.body.appendChild(heart);
+    // Rose petals
+    function createPetal() {
+      const petal = document.createElement("div");
+      petal.className = "petal";
+      petal.innerHTML = "🌹";
+      petal.style.left = Math.random() * 100 + "vw";
+      petal.style.animationDuration = 6 + Math.random() * 4 + "s";
+      document.body.appendChild(petal);
 
-      setTimeout(() => heart.remove(), 9000);
+      setTimeout(() => petal.remove(), 10000);
     }
 
-    setInterval(createHeart, 500);
+    setInterval(createPetal, 600);
 
     // YES explosion
     yesBtn.addEventListener("click", () => {
@@ -197,7 +220,7 @@
       for (let i = 0; i < 22; i++) {
         const burst = document.createElement("div");
         burst.className = "burst";
-        burst.innerHTML = "💘";
+        burst.innerHTML = "🌹";
         burst.style.left = rect.left + rect.width / 2 + "px";
         burst.style.top = rect.top + rect.height / 2 + "px";
         burst.style.setProperty("--x", `${Math.random() * 200 - 100}px`);
