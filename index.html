@@ -1,246 +1,706 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mahalakshmi 💖</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Question ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: "Segoe UI", sans-serif;
-    }
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            background: linear-gradient(135deg, #4a0e4e 0%, #81003c 50%, #3d0814 100%);
+            color: #fff;
+        }
 
-    body {
-      margin: 0;
-      height: 100vh;
-      background:
-        radial-gradient(circle at top, rgba(255,255,255,0.15), transparent 45%),
-        linear-gradient(135deg, #2b0f1e, #7a1f3d, #c9485b);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #fff;
-      overflow: hidden;
-    }
+        /* Animated gradient overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 0, 102, 0.1), rgba(138, 43, 226, 0.1), rgba(220, 20, 60, 0.1));
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
 
-    /* Rose petals */
-    .petal {
-      position: absolute;
-      bottom: -30px;
-      font-size: 20px;
-      animation: floatUp linear infinite;
-      opacity: 0.8;
-      z-index: 1;
-    }
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
 
-    @keyframes floatUp {
-      from {
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
-      }
-      to {
-        transform: translateY(-110vh) rotate(360deg);
-        opacity: 0;
-      }
-    }
+        /* Floating petals container */
+        .petals-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
 
-    /* Card fade-in */
-    .card {
-      background: rgba(255, 255, 255, 0.12);
-      padding: 34px 22px;
-      border-radius: 24px;
-      width: 90%;
-      max-width: 380px;
-      backdrop-filter: blur(14px);
-      box-shadow: 0 22px 45px rgba(0,0,0,0.35);
-      position: relative;
-      z-index: 2;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeIn 1.6s ease forwards;
-    }
+        .petal {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(ellipse at center, #ff6b9d 0%, #c44569 100%);
+            border-radius: 50% 0 50% 0;
+            opacity: 0;
+            animation: floatPetal 12s infinite ease-in-out;
+            filter: blur(0.5px);
+        }
 
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+        @keyframes floatPetal {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-20vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
 
-    h1 {
-      font-size: 1.7rem;
-      margin-bottom: 10px;
-    }
+        /* Hearts floating */
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            color: #ff4d8d;
+            animation: floatHeart 10s infinite ease-in-out;
+            text-shadow: 0 0 10px rgba(255, 77, 141, 0.5);
+        }
 
-    .glow {
-      color: #ffd6e7;
-      animation: glowPulse 3s ease-in-out infinite;
-    }
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.9;
+            }
+            90% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(-20vh) scale(1.5) rotate(15deg);
+                opacity: 0;
+            }
+        }
 
-    @keyframes glowPulse {
-      0%, 100% {
-        text-shadow: 0 0 8px rgba(255,214,231,0.4);
-      }
-      50% {
-        text-shadow: 0 0 16px rgba(255,214,231,0.8);
-      }
-    }
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
 
-    p {
-      font-size: 1.05rem;
-      margin-bottom: 22px;
-      min-height: 60px;
-    }
+        /* Glass-morphism card */
+        .proposal-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 50px 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                        0 0 60px rgba(255, 77, 141, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            opacity: 0;
+            transform: scale(0.9);
+            animation: cardFadeIn 1s ease forwards 0.3s;
+        }
 
-    .buttons {
-      position: relative;
-      height: 160px;
-      margin-top: 10px;
-    }
+        @keyframes cardFadeIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
 
-    button {
-      border: none;
-      padding: 14px 26px;
-      font-size: 1.05rem;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: transform 0.15s ease;
-      user-select: none;
-    }
+        /* Decorative corner elements */
+        .proposal-card::before,
+        .proposal-card::after {
+            content: '💝';
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.3;
+            animation: pulse 2s ease-in-out infinite;
+        }
 
-    #yesBtn {
-      background: linear-gradient(135deg, #00e676, #66ffa6);
-      color: #0b3d24;
-      font-weight: 700;
-    }
+        .proposal-card::before {
+            top: 15px;
+            left: 15px;
+        }
 
-    #noBtn {
-      background: linear-gradient(135deg, #ff1744, #ff6f91);
-      color: #fff;
-      position: absolute;
-      left: 50%;
-      top: 85px;
-      transform: translateX(-50%);
-    }
+        .proposal-card::after {
+            bottom: 15px;
+            right: 15px;
+        }
 
-    .love {
-      font-size: 1.25rem;
-      margin-top: 22px;
-      display: none;
-    }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.5; }
+        }
 
-    /* Final screen */
-    .final {
-      position: fixed;
-      inset: 0;
-      background:
-        linear-gradient(135deg, #1a0611, #5c1630, #b9375e);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 1.5s ease;
-      z-index: 5;
-    }
+        /* Name with glow effect */
+        .name {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #ff6b9d, #ffd93d, #ff6b9d);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: nameGlow 3s ease-in-out infinite, shimmer 4s linear infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 107, 157, 0.6));
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
 
-    .final.show {
-      opacity: 1;
-      pointer-events: all;
-    }
-  </style>
+        @keyframes nameGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 107, 157, 0.6)); }
+            50% { filter: drop-shadow(0 0 30px rgba(255, 107, 157, 1)); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        /* Typewriter message */
+        .message {
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 40px;
+            min-height: 120px;
+            color: #ffeef8;
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+        }
+
+        .typewriter {
+            display: inline;
+            border-right: 3px solid #ff6b9d;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 49% { border-color: #ff6b9d; }
+            50%, 100% { border-color: transparent; }
+        }
+
+        /* Question */
+        .question {
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 0 2px 10px rgba(255, 107, 157, 0.5);
+            animation: questionBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes questionBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Buttons container */
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            min-height: 80px;
+        }
+
+        .btn {
+            padding: 18px 50px;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff4d8d 100%);
+            color: white;
+            animation: yesGlow 2s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(255, 77, 141, 0.6);
+        }
+
+        .btn-yes:active {
+            transform: scale(1.05);
+        }
+
+        @keyframes yesGlow {
+            0%, 100% { box-shadow: 0 6px 20px rgba(255, 77, 141, 0.4); }
+            50% { box-shadow: 0 6px 30px rgba(255, 77, 141, 0.8); }
+        }
+
+        .btn-no {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffeef8;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.15s ease-out;
+            z-index: 1;
+        }
+
+        .btn-no.moving {
+            position: absolute;
+        }
+
+        .btn-no:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Confirmation message */
+        .confirmation {
+            display: none;
+            text-align: center;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .confirmation.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .confirmation h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #ffd93d;
+            text-shadow: 0 0 20px rgba(255, 217, 61, 0.6);
+        }
+
+        .confirmation p {
+            font-size: 1.3rem;
+            color: #ffeef8;
+            line-height: 1.8;
+        }
+
+        /* Burst animation */
+        .burst-petal {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: radial-gradient(circle, #ff6b9d, #ff4d8d);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        @keyframes burstOut {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Final scene */
+        .final-scene {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a0033 0%, #4a0e4e 50%, #81003c 100%);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            padding: 20px;
+        }
+
+        .final-scene.active {
+            display: flex;
+            animation: sceneFadeIn 2s ease forwards;
+        }
+
+        @keyframes sceneFadeIn {
+            to { opacity: 1; }
+        }
+
+        .final-content {
+            text-align: center;
+            max-width: 600px;
+            animation: finalContentFloat 1.5s ease forwards 0.5s;
+            opacity: 0;
+        }
+
+        @keyframes finalContentFloat {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .final-content {
+            transform: translateY(30px);
+        }
+
+        .final-emoji {
+            font-size: 6rem;
+            margin-bottom: 30px;
+            animation: emojiSpin 3s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes emojiSpin {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-10deg) scale(1.1); }
+            75% { transform: rotate(10deg) scale(1.1); }
+        }
+
+        .final-message {
+            font-size: 2.5rem;
+            color: #ffd93d;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(255, 217, 61, 0.8);
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+        .final-submessage {
+            font-size: 1.5rem;
+            color: #ffeef8;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .final-signature {
+            font-size: 1.8rem;
+            color: #ff6b9d;
+            margin-top: 30px;
+            font-style: italic;
+            animation: signatureGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes signatureGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 107, 157, 0.6); }
+            50% { text-shadow: 0 0 30px rgba(255, 107, 157, 1); }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .proposal-card {
+                padding: 40px 25px;
+            }
+
+            .name {
+                font-size: 2rem;
+            }
+
+            .message {
+                font-size: 1rem;
+                min-height: 100px;
+            }
+
+            .question {
+                font-size: 1.5rem;
+            }
+
+            .btn {
+                padding: 15px 35px;
+                font-size: 1.1rem;
+            }
+
+            .final-emoji {
+                font-size: 4rem;
+            }
+
+            .final-message {
+                font-size: 1.8rem;
+            }
+
+            .final-submessage {
+                font-size: 1.2rem;
+            }
+
+            .final-signature {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* Loading overlay */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #4a0e4e 0%, #81003c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-heart {
+            font-size: 4rem;
+            animation: loadingBeat 1s ease-in-out infinite;
+        }
+
+        @keyframes loadingBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+    </style>
 </head>
-
 <body>
-
-  <!-- Background music -->
-  <audio id="bgMusic" loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_9c66d6c6a4.mp3" type="audio/mpeg">
-  </audio>
-
-  <div class="card">
-    <h1>Hey <span class="glow">Mahalakshmi</span> 💕</h1>
-
-    <p id="typedText"></p>
-
-    <h1>Will you be my Valentine? 🌹</h1>
-
-    <div class="buttons" id="buttonArea">
-      <button id="yesBtn">YES 💘</button>
-      <button id="noBtn">NO 🙈</button>
+    <!-- Loading overlay -->
+    <div class="loading" id="loading">
+        <div class="loading-heart">💖</div>
     </div>
 
-    <div class="love" id="loveMsg">
-      💞 Yaaay! I knew it 😍<br>
-      Happy Valentine’s Day, Mahalakshmi 💖
+    <!-- Floating petals and hearts -->
+    <div class="petals-container" id="petalsContainer"></div>
+
+    <!-- Main container -->
+    <div class="container">
+        <div class="proposal-card" id="proposalCard">
+            <h1 class="name">Mahalakshmi</h1>
+            
+            <div class="message">
+                <span class="typewriter" id="typewriter"></span>
+            </div>
+
+            <div id="questionSection">
+                <div class="question">Will you be my Valentine? 💕</div>
+                
+                <div class="buttons" id="buttonsContainer">
+                    <button class="btn btn-yes" id="yesBtn">Yes! 💖</button>
+                    <button class="btn btn-no" id="noBtn">No</button>
+                </div>
+            </div>
+
+            <div class="confirmation" id="confirmation">
+                <h2>Yay! 🎉</h2>
+                <p>You've made me the happiest person alive! ✨</p>
+                <p>Get ready for something special... 💝</p>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <div class="final" id="finalScreen">
-    🌹 Forever starts here 🌹
-  </div>
+    <!-- Final scene -->
+    <div class="final-scene" id="finalScene">
+        <div class="final-content">
+            <div class="final-emoji">💑</div>
+            <div class="final-message">You and Me, Forever! 💕</div>
+            <div class="final-submessage">
+                Every moment with you is magical ✨<br>
+                You're my today and all of my tomorrows 🌹<br>
+                Thank you for saying YES! 💖
+            </div>
+            <div class="final-signature">With all my love, always 💝</div>
+        </div>
+    </div>
 
-  <script>
-    const text =
-      "Every day feels special with you…\nSo I have just one question 💖";
-    const typedText = document.getElementById("typedText");
-    let index = 0;
 
-    function typeEffect() {
-      if (index < text.length) {
-        typedText.innerHTML += text[index] === "\n" ? "<br>" : text[index];
-        index++;
-        setTimeout(typeEffect, 40);
-      }
-    }
+    <script>
+        // Configuration
+        const romanticMessage = "From the moment I met you, my world became brighter. Your smile lights up my darkest days, and your laughter is my favorite melody. You are my dreams come true, my safe harbor, my greatest adventure. 🌹";
 
-    setTimeout(typeEffect, 800);
+        // Initialize
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+                createFloatingElements();
+                startTypewriter();
+            }, 1000);
+        });
 
-    const noBtn = document.getElementById("noBtn");
-    const yesBtn = document.getElementById("yesBtn");
-    const loveMsg = document.getElementById("loveMsg");
-    const area = document.getElementById("buttonArea");
-    const music = document.getElementById("bgMusic");
-    const finalScreen = document.getElementById("finalScreen");
+        // Create floating petals and hearts
+        function createFloatingElements() {
+            const container = document.getElementById('petalsContainer');
+            
+            // Create petals
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const petal = document.createElement('div');
+                    petal.className = 'petal';
+                    petal.style.left = Math.random() * 100 + '%';
+                    petal.style.animationDelay = Math.random() * 8 + 's';
+                    petal.style.animationDuration = (Math.random() * 8 + 8) + 's';
+                    container.appendChild(petal);
+                }, i * 200);
+            }
 
-    document.body.addEventListener("click", () => {
-      music.play().catch(() => {});
-    }, { once: true });
+            // Create hearts
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.textContent = '❤️';
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.animationDelay = Math.random() * 6 + 's';
+                    heart.style.animationDuration = (Math.random() * 6 + 8) + 's';
+                    heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+                    container.appendChild(heart);
+                }, i * 300);
+            }
+        }
 
-    function moveNoButton() {
-      const maxX = area.clientWidth - noBtn.offsetWidth;
-      const maxY = area.clientHeight - noBtn.offsetHeight;
-      noBtn.style.left = Math.random() * maxX + "px";
-      noBtn.style.top = Math.random() * maxY + "px";
-    }
+        // Typewriter effect
+        function startTypewriter() {
+            const element = document.getElementById('typewriter');
+            let index = 0;
+            
+            function type() {
+                if (index < romanticMessage.length) {
+                    element.textContent += romanticMessage.charAt(index);
+                    index++;
+                    setTimeout(type, 50);
+                } else {
+                    element.style.borderRight = 'none';
+                }
+            }
+            
+            setTimeout(type, 500);
+        }
 
-    noBtn.addEventListener("mouseenter", moveNoButton);
-    noBtn.addEventListener("touchstart", moveNoButton);
+        // No button movement - anywhere within the card
+        function moveNoButton() {
+            const noBtn = document.getElementById('noBtn');
+            const card = document.getElementById('proposalCard');
+            
+            // Make it absolutely positioned first time
+            if (!noBtn.classList.contains('moving')) {
+                noBtn.classList.add('moving');
+            }
+            
+            const cardRect = card.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+            
+            // Calculate boundaries within the card (with padding)
+            const padding = 20;
+            const maxX = cardRect.width - btnRect.width - padding;
+            const maxY = cardRect.height - btnRect.height - padding;
+            
+            // Random position within card boundaries
+            const randomX = padding + Math.random() * (maxX - padding);
+            const randomY = padding + Math.random() * (maxY - padding);
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
 
-    function createPetal() {
-      const petal = document.createElement("div");
-      petal.className = "petal";
-      petal.innerHTML = "🌹";
-      petal.style.left = Math.random() * 100 + "vw";
-      petal.style.animationDuration = 6 + Math.random() * 4 + "s";
-      document.body.appendChild(petal);
-      setTimeout(() => petal.remove(), 10000);
-    }
+        // Event listeners for No button
+        const noBtn = document.getElementById('noBtn');
+        
+        noBtn.addEventListener('mouseenter', moveNoButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
 
-    setInterval(createPetal, 600);
+        // Prevent clicking No button
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
 
-    yesBtn.addEventListener("click", () => {
-      yesBtn.style.display = "none";
-      noBtn.style.display = "none";
-      loveMsg.style.display = "block";
+        // Yes button click
+        document.getElementById('yesBtn').addEventListener('click', () => {
+            // Create burst effect
+            createBurstEffect();
+            
+            // Hide question, show confirmation
+            document.getElementById('questionSection').style.display = 'none';
+            document.getElementById('confirmation').classList.add('active');
+            
+            // Transition to final scene
+            setTimeout(() => {
+                document.getElementById('finalScene').classList.add('active');
+            }, 3000);
+        });
 
-      setTimeout(() => {
-        finalScreen.classList.add("show");
-      }, 2000);
-    });
-  </script>
+        // Burst effect
+        function createBurstEffect() {
+            const card = document.getElementById('proposalCard');
+            const rect = card.getBoundingClientRect();
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
 
+            for (let i = 0; i < 30; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'burst-petal';
+                
+                const angle = (Math.PI * 2 * i) / 30;
+                const velocity = 100 + Math.random() * 100;
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+                
+                petal.style.left = centerX + 'px';
+                petal.style.top = centerY + 'px';
+                petal.style.setProperty('--tx', tx + 'px');
+                petal.style.setProperty('--ty', ty + 'px');
+                petal.style.animation = `burstOut 1s ease-out forwards`;
+                
+                card.appendChild(petal);
+                
+                setTimeout(() => petal.remove(), 1000);
+            }
+        }
+    </script>
 </body>
 </html>
